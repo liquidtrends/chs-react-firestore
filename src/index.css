@@ -1,4 +1,5 @@
 body {
+  background: #F7F9FC;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -10,4 +11,32 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.top-bar {
+  background: #e74c3c;
+  padding: 10px;
+}
+
+.menu-container {
+  background: #fff;
+  padding: 10px 0 10px 0;
+}
+
+.card {
+  padding: 10px;
+  margin: 10px 0 10px 0;
+}
+
+.case-form-container {
+  padding-top: 40px;
+}
+
+.Open {
+  background: red;
+}
+
+.new-casefile-button {
+  background-color: #00b894!important;
+  margin-top: -3px!important;
 }

@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './App.css';
+import firebase from './Firebase';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import AncestryChart from './components/AncestryChart';
+import StatusChart from './components/StatusChart';
+import DataTable from './components/DataTable';
+
+const useStyles = makeStyles(theme => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+  input: {
+    display: 'none',
+  },
+}));
+
+
+class App extends Component {
+
+  render() {
+    return (
+      <div className="container">
+        <div className="panel panel-default">
+          <div>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="card">
+                  <h4>Casefile Status</h4>
+                  <StatusChart />
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="card">
+                  <h4>Ancestry</h4>
+                  <AncestryChart />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="card">
+            <DataTable />
+          </div>
+
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
