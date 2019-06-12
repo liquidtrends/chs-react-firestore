@@ -22,10 +22,12 @@ class Create extends Component {
       referredBy: '',
       childWelfareInvolvement: '',
       time: firebase.database.ServerValue.TIMESTAMP,
-      children: {
+      children: [],
+      child: {
         childFirstName: '',
-        childLastName: ''
-      },
+        childLastName: '',
+        childDob: ''
+      }
     };
   }
 
@@ -35,9 +37,15 @@ class Create extends Component {
     this.setState(state);
   }
 
+  onChildChange = (e) => {
+    const {child} = this.state
+    child[e.target.name] = e.target.value;
+    this.setState(child);
+  }
+
   onSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, parentDob, phoneNumber, parentGender, Ancestry, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time} = this.state;
+    const { firstName, lastName, parentDob, phoneNumber, parentGender, Ancestry, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time, children} = this.state;
     this.ref.add({
       firstName,
       lastName,
@@ -50,7 +58,8 @@ class Create extends Component {
       reasonForIntervention,
       referredBy,
       childWelfareInvolvement,
-      time
+      time,
+      children
     }).then((docRef) => {
       this.ancestryCountRef.get().then(countInfoDoc => {
         if (countInfoDoc.exists) {
@@ -86,8 +95,17 @@ class Create extends Component {
     });
   }
 
+  addChild = () => {
+    let children = this.state.children;
+    children.push(this.state.child);
+    this.setState({
+      children, 
+      child: {childFirstName: '', childLastName: '', childDob: ''
+    }});
+  }
+
   render() {
-    const { firstName, lastName, parentDob, phoneNumber, parentGender, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time} = this.state;
+    const { firstName, lastName, parentDob, phoneNumber, parentGender, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time, children, child} = this.state;
     return (
       <div className="container case-form-container">
         <h4>New Case File</h4>
@@ -208,28 +226,70 @@ class Create extends Component {
             </div>
 
             <div className="col-md-4">
+              {children.length > 0 &&
+                <div className="card">
+                  <h4>Children</h4>
+                  <table className="table table-stripe">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Birthday</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {children.map(c =>
+                        <tr>
+                          <td>{c.childFirstName} {c.childLastName}</td>
+                          <td>{c.childDob}</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              }
               {/* Add children */}
               <div className="card">
-                <h4>Children</h4>
+                <h4>Add Child</h4>
                 <form>
                 <div className="form-group text-center">
                   <div className="form-group">
                     <label htmlFor="name">Child Name:</label>
                     <div className="form-row">
                       <div className="col">
-                        <input type="text" className="form-control" name="firstName" placeholder="First name" />
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          name="childFirstName" 
+                          placeholder="First name" 
+                          onChange={this.onChildChange}
+                          value={child.childFirstName}
+                        />
                       </div>
                       <div className="col">
-                        <input type="text" className="form-control" name="lastName" placeholder="Last name" />
+                        <input 
+                          type="text" 
+                          className="form-control" 
+                          name="childLastName" 
+                          placeholder="Last name" 
+                          onChange={this.onChildChange}
+                          value={child.childLastName}
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="DOB">Date of Birth: </label>
-                  <input type="text" className="form-control" name="parentDob" placeholder="January 1, 2001" />
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    name="childDob" 
+                    placeholder="January 1, 2001" 
+                    onChange={this.onChildChange}
+                    value={child.childDob}
+                  />
                 </div>
-                <button type="submit" className="btn btn-success">Add Child</button>
+                <button type="button" className="btn btn-success" onClick={this.addChild}>Add Child</button>
                 </form>
               </div>
             </div>
