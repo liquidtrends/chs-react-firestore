@@ -199,7 +199,21 @@ class Create extends Component {
                 <h4>Children</h4>
                 <form>
                 <div className="form-group text-center">
-
+                  <div className="form-group">
+                    <label htmlFor="name">Child Name:</label>
+                    <div className="form-row">
+                      <div className="col">
+                        <input type="text" className="form-control" name="firstName" placeholder="First name" />
+                      </div>
+                      <div className="col">
+                        <input type="text" className="form-control" name="lastName" placeholder="Last name" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="DOB">Date of Birth: </label>
+                  <input type="text" className="form-control" name="parentDob" placeholder="January 1, 2001" />
                 </div>
                 </form>
               </div>
