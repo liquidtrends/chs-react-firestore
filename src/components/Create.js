@@ -215,6 +215,7 @@ class Create extends Component {
                   <label htmlFor="DOB">Date of Birth: </label>
                   <input type="text" className="form-control" name="parentDob" placeholder="January 1, 2001" />
                 </div>
+                <button type="submit" className="btn btn-success">Add Child</button>
                 </form>
               </div>
             </div>
