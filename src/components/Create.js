@@ -37,7 +37,6 @@ class Create extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { firstName, lastName, parentDob, phoneNumber, parentGender, Ancestry, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time} = this.state;
-
     this.ref.add({
       firstName,
       lastName,
@@ -50,7 +49,7 @@ class Create extends Component {
       reasonForIntervention,
       referredBy,
       childWelfareInvolvement,
-      time,
+      time
     }).then((docRef) => {
       this.setState({
         firstName: '',
