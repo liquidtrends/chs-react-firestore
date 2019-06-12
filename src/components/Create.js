@@ -8,6 +8,7 @@ class Create extends Component {
   constructor() {
     super();
     this.ref = firebase.firestore().collection('cases');
+    this.ancestryCountRef = firebase.firestore().collection('ancestry').doc('count-info');
     this.state = {
       firstName: '',
       lastName: '',
@@ -51,6 +52,19 @@ class Create extends Component {
       childWelfareInvolvement,
       time
     }).then((docRef) => {
+      this.ancestryCountRef.get().then(countInfoDoc => {
+        if (countInfoDoc.exists) {
+          let countInfo = countInfoDoc.data();
+          if(countInfo[Ancestry]) {
+            countInfo[Ancestry] = countInfo[Ancestry] + 1;
+          } else {
+            countInfo[Ancestry] = 1;
+          }
+          this.ancestryCountRef.set(countInfo);
+        } else {
+          console.log("Could not find a document for counting info!");
+        }
+      })
       this.setState({
         firstName: '',
         lastName: '',
