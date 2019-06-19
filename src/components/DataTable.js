@@ -31,6 +31,7 @@ constructor(props) {
 
 onCollectionUpdate = (querySnapshot) => {
   const cases = [];
+  const ancestry = [];
   querySnapshot.forEach((doc) => {
     const { firstName, lastName, caseStatus, phoneNumber, reasonForIntervention, referredBy } = doc.data();
     cases.push({

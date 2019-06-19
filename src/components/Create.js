@@ -8,7 +8,7 @@ class Create extends Component {
   constructor() {
     super();
     this.ref = firebase.firestore().collection('cases');
-    this.ancestryCountRef = firebase.firestore().collection('ancestry').doc('count-info');
+    this.ancestryCountRef = firebase.firestore().collection('ancestry').doc('ancestryCount');
     this.state = {
       firstName: '',
       lastName: '',
@@ -99,13 +99,13 @@ class Create extends Component {
     let children = this.state.children;
     children.push(this.state.child);
     this.setState({
-      children, 
+      children,
       child: {childFirstName: '', childLastName: '', childDob: ''
     }});
   }
 
   render() {
-    const { firstName, lastName, parentDob, phoneNumber, parentGender, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time, children, child} = this.state;
+    const { firstName, lastName, parentDob, phoneNumber, parentGender, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time, children, child, comment, singleComment} = this.state;
     return (
       <div className="container case-form-container">
         <h4>New Case File</h4>
@@ -217,7 +217,6 @@ class Create extends Component {
                     <label htmlFor="DOB">Referred by:</label>
                     <input type="text" className="form-control" name="referredBy" value={referredBy} onChange={this.onChange} placeholder="Referral" />
                   </div>
-                  {/* Children */}
 
                   {/* Submit */}
                   <button type="submit" className="btn btn-success">Submit</button>
@@ -237,12 +236,12 @@ class Create extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {children.map(c =>
-                        <tr>
-                          <td>{c.childFirstName} {c.childLastName}</td>
-                          <td>{c.childDob}</td>
-                        </tr>
-                      )}
+                    {children.map(c =>
+                      <tr>
+                        <td>{c.childFirstName} {c.childLastName}</td>
+                        <td>{c.childDob}</td>
+                      </tr>
+                    )}
                     </tbody>
                   </table>
                 </div>
@@ -256,21 +255,21 @@ class Create extends Component {
                     <label htmlFor="name">Child Name:</label>
                     <div className="form-row">
                       <div className="col">
-                        <input 
-                          type="text" 
-                          className="form-control" 
-                          name="childFirstName" 
-                          placeholder="First name" 
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="childFirstName"
+                          placeholder="First name"
                           onChange={this.onChildChange}
                           value={child.childFirstName}
                         />
                       </div>
                       <div className="col">
-                        <input 
-                          type="text" 
-                          className="form-control" 
-                          name="childLastName" 
-                          placeholder="Last name" 
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="childLastName"
+                          placeholder="Last name"
                           onChange={this.onChildChange}
                           value={child.childLastName}
                         />
@@ -280,11 +279,11 @@ class Create extends Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="DOB">Date of Birth: </label>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    name="childDob" 
-                    placeholder="January 1, 2001" 
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="childDob"
+                    placeholder="January 1, 2001"
                     onChange={this.onChildChange}
                     value={child.childDob}
                   />

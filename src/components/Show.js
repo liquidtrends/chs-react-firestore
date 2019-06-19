@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from '../Firebase';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
@@ -12,22 +13,28 @@ class Show extends Component {
     super(props);
     this.state = {
       casefile: {},
-      key: ''
+      key: '',
+      children: [],
+      child: {
+        childFirstName: '',
+        childLastName: '',
+        childDob: ''
+      }
     };
   }
 
-    statusChangeState() {
-
-    }
-
   componentDidMount() {
     const ref = firebase.firestore().collection('cases').doc(this.props.match.params.id);
+    const children = this.state.children;
+    const {child} = this.state
     ref.get().then((doc) => {
       if (doc.exists) {
         this.setState({
           casefile: doc.data(),
           key: doc.id,
-          isLoading: false
+          isLoading: false,
+          children,
+          child: {childFirstName: '', childLastName: '', childDob: ''}
         });
       } else {
         console.log("No such document!");
@@ -44,11 +51,41 @@ class Show extends Component {
     });
   }
 
+  onChildChange = (e) => {
+    const {child} = this.state
+    child[e.target.name] = e.target.value;
+    this.setState(child);
+  }
+
+  addChild = () => {
+    let children = this.state.children;
+    children.push(this.state.child);
+    this.setState({
+      children,
+      child: {childFirstName: '', childLastName: '', childDob: ''
+    }});
+  }
+
+
   render() {
+
+  const {children, child, childDob, childFirstName, childLastName} = this.state.casefile;
+
+  console.log(JSON.stringify(this.state.casefile.children));
+
+
     return (
         <div className="container">
-        <a href="/">Back to case files</a>
+        {(JSON.stringify(this.state.casefile.children))}
 
+        {children.map(c =>
+          <tr>
+            <td>{c.childFirstName} {c.childLastName}</td>
+            <td>{c.childDob}</td>
+          </tr>
+        )}
+
+        <a href="/">Back to case files</a>
         <div className="row">
           <div className="col-md-8">
             <div className="panel-body card">
@@ -66,13 +103,18 @@ class Show extends Component {
                 <dd>Phone: <Link to={`tel:${this.state.casefile.phoneNumber}`}>{this.state.casefile.phoneNumber}</Link></dd>
               </dl>
             </div>
-            <div class="card">
+            <div className="card">
               <p>Comments:</p>
             </div>
           </div>
           <div className="col-md-4">
-            <div className=" panel-body card">
+            <div className="panel-body card">
               <h5>Children</h5>
+                <div className="card">
+                  <h4>Children</h4>
+
+
+                </div>
             </div>
           </div>
         </div>
