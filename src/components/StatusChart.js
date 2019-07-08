@@ -42,6 +42,7 @@ class StatusChart extends Component {
 
 
     return (
+
       <div>
         <Doughnut
         width={100}

@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Table from 'react-bootstrap/Table';
 
 class Show extends Component {
 
@@ -25,16 +26,13 @@ class Show extends Component {
 
   componentDidMount() {
     const ref = firebase.firestore().collection('cases').doc(this.props.match.params.id);
-    const children = this.state.children;
-    const {child} = this.state
+
     ref.get().then((doc) => {
       if (doc.exists) {
         this.setState({
           casefile: doc.data(),
           key: doc.id,
-          isLoading: false,
-          children,
-          child: {childFirstName: '', childLastName: '', childDob: ''}
+          isLoading: false
         });
       } else {
         console.log("No such document!");
@@ -51,40 +49,18 @@ class Show extends Component {
     });
   }
 
-  onChildChange = (e) => {
-    const {child} = this.state
-    child[e.target.name] = e.target.value;
-    this.setState(child);
-  }
-
-  addChild = () => {
-    let children = this.state.children;
-    children.push(this.state.child);
-    this.setState({
-      children,
-      child: {childFirstName: '', childLastName: '', childDob: ''
-    }});
-  }
-
 
   render() {
 
-  const {children, child, childDob, childFirstName, childLastName} = this.state.casefile;
+    if(this.state.isLoading) {
+        return null;
+    }
 
-  console.log(JSON.stringify(this.state.casefile.children));
-
+    const children = this.state.casefile.children || [ ];
+    const comment = this.state.casefile.comment || [ ];
 
     return (
         <div className="container">
-        {(JSON.stringify(this.state.casefile.children))}
-
-        {children.map(c =>
-          <tr>
-            <td>{c.childFirstName} {c.childLastName}</td>
-            <td>{c.childDob}</td>
-          </tr>
-        )}
-
         <a href="/">Back to case files</a>
         <div className="row">
           <div className="col-md-8">
@@ -105,17 +81,43 @@ class Show extends Component {
             </div>
             <div className="card">
               <p>Comments:</p>
+
+                {comment.length > 0 &&
+                  <div>
+                      {comment.map(c =>
+                        <ul>
+                          <li>{c.theComment}</li>
+                        </ul>
+                      )}
+                  </div>
+                }
+
             </div>
           </div>
           <div className="col-md-4">
-            <div className="panel-body card">
-              <h5>Children</h5>
-                <div className="card">
-                  <h4>Children</h4>
 
-
-                </div>
+          {children.length > 0 &&
+            <div className="card">
+              <h4>Children</h4>
+              <Table striped bordered hover size="sm">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>DOB</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {children.map(c =>
+                  <tr>
+                    <td className="small">{c.childFirstName} {c.childLastName}</td>
+                    <td className="small">{c.childDob}</td>
+                  </tr>
+                )}
+                </tbody>
+              </Table>
             </div>
+          }
+
           </div>
         </div>
 

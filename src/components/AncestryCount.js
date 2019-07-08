@@ -32,16 +32,13 @@ class AncestryCount extends Component {
    });
   }
 
-  componentDidMount() {
-    this.unsubscribe = this.ancestryRef.onSnapshot(this.onCollectionUpdate);
-  }
 
   render() {
 
     return (
       <div>
         {this.state.ancestry.map(c =>
-          <p>{c.metis}</p>
+          <p>[{c.metis},{c.status},{c.nonStatus},{c.inuit}]</p>
         )}
       </div>
 

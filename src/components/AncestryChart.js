@@ -11,38 +11,9 @@ class AncestryChart extends Component {
 
   constructor(props) {
     super(props);
-    this.ancestryRef = firebase.firestore().collection('ancestry');
-    this.unsubscribe = null;
-    this.state = {
-      ancestry: []
-    };
-    console.log(this.state.ancestry);
-  }
-
-  onCollectionUpdate = (querySnapshot) => {
-    const ancestry = [];
-    querySnapshot.forEach((doc) => {
-      const { metis, inuit, status, nonStatus } = doc.data();
-      ancestry.push({
-        key: doc.id,
-        doc, // DocumentSnapshot
-        inuit,
-        metis,
-        status,
-        nonStatus
-      });
-    });
-    this.setState({
-      ancestry
-   });
-  }
-
-  componentDidMount() {
-    this.unsubscribe = this.ancestryRef.onSnapshot(this.onCollectionUpdate);
   }
 
   render() {
-
     const ancestryData = {
 
             labels: [
@@ -53,7 +24,7 @@ class AncestryChart extends Component {
             ],
             datasets: [
                 {
-                    data: [1,2,3,4],
+                    data: <AncestryCount />,
                     backgroundColor: [
                         "#3498db",
                         "#9b59b6",
@@ -71,6 +42,7 @@ class AncestryChart extends Component {
         };
 
     return (
+
       <div>
         <Pie
         width={100}
@@ -78,7 +50,6 @@ class AncestryChart extends Component {
         data={ancestryData}
         />
         <AncestryCount />
-
       </div>
 
     )
