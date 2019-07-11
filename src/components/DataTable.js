@@ -20,68 +20,61 @@ const { ExportCSVButton } = CSVExport;
 
 class DataTable extends Component {
 
-constructor(props) {
-  super(props);
-  this.ref = firebase.firestore().collection('cases');
-  this.unsubscribe = null;
-  this.state = {
-    cases: []
-  };
-}
+  constructor(props) {
+    super(props);
+    this.ref = firebase.firestore().collection('cases');
+    this.unsubscribe = null;
+    this.state = {
+      cases: []
+    };
+  }
 
-onCollectionUpdate = (querySnapshot) => {
-  const cases = [];
-  const ancestry = [];
-  querySnapshot.forEach((doc) => {
-    const { firstName, lastName, caseStatus, phoneNumber, reasonForIntervention, referredBy } = doc.data();
-    cases.push({
-      key: doc.id,
-      doc, // DocumentSnapshot
-      firstName,
-      lastName,
-      caseStatus,
-      phoneNumber,
-      reasonForIntervention,
-      referredBy
+  onCollectionUpdate = (querySnapshot) => {
+    const cases = [];
+    const ancestry = [];
+    querySnapshot.forEach((doc) => {
+      const { firstName, lastName, caseStatus, phoneNumber, reasonForIntervention, referredBy } = doc.data();
+      cases.push({
+        key: doc.id,
+        doc, // DocumentSnapshot
+        firstName,
+        lastName,
+        caseStatus,
+        phoneNumber,
+        reasonForIntervention,
+        referredBy
+      });
     });
-  });
-  this.setState({
-    cases
- });
-}
+    this.setState({ cases });
+  }
 
-componentDidMount() {
-  this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-}
-
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  }
 
   render() {
-
-  const columns = [{
-      dataField: 'doc.id',
-      text: 'Case ID'
-    }, {
-      dataField: 'firstName' ,
-      text: 'First Name',
-      sort: true
-    }, {
-      dataField: 'lastName',
-      text: 'Last Name',
-      sort: true
-    }, {
-      dataField: 'caseStatus',
-      text: 'Status',
-      sort: true
-    }
-  ];
-
+    const columns = [{
+        dataField: 'doc.id',
+        text: 'Case ID'
+      }, {
+        dataField: 'firstName' ,
+        text: 'First Name',
+        sort: true
+      }, {
+        dataField: 'lastName',
+        text: 'Last Name',
+        sort: true
+      }, {
+        dataField: 'caseStatus',
+        text: 'Status',
+        sort: true
+      }
+    ];
 
     return (
-
-    <div>
-      <BootstrapTable keyField='id' data={ this.state.cases } columns={ columns } />
-    </div>
-
+      <div>
+        <BootstrapTable keyField='id' data={ this.state.cases } columns={ columns } />
+      </div>
     )
   }
 }

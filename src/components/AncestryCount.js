@@ -11,7 +11,6 @@ class AncestryCount extends Component {
     this.state = {
       ancestry: []
     };
-    console.log(this.state.ancestry);
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -29,9 +28,12 @@ class AncestryCount extends Component {
     });
     this.setState({
       ancestry
-   });
+    });
   }
 
+  componentDidMount() {
+    this.unsubscribe = this.ancestryRef.onSnapshot(this.onCollectionUpdate);
+  }
 
   render() {
 
@@ -41,10 +43,8 @@ class AncestryCount extends Component {
           <p>[{c.metis},{c.status},{c.nonStatus},{c.inuit}]</p>
         )}
       </div>
-
     )
   }
-
 }
 
 export default AncestryCount;
