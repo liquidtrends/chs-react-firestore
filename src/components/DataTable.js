@@ -71,7 +71,6 @@ class DataTable extends Component {
       }
     ];
 
-
     return (
       <div>
         <BootstrapTable keyField='id' data={ this.state.cases } columns={ columns } />
