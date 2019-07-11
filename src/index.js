@@ -10,6 +10,7 @@ import Edit from './components/Edit';
 import Create from './components/Create';
 import Show from './components/Show';
 import CaseFiles from './components/CaseFiles';
+import Export from './components/ExportData';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -27,7 +28,7 @@ ReactDOM.render(
             <Nav className="mr-auto">
               <Nav.Link href="/">Dashboard</Nav.Link>
               <Nav.Link href="/Casefiles">Case Files</Nav.Link>
-              <Nav.Link href="">Export Data</Nav.Link>
+              <Nav.Link href="/export">Export Data</Nav.Link>
             </Nav>
             <Nav className="justify-content-end">
               <Nav.Item>
@@ -44,6 +45,7 @@ ReactDOM.render(
         <Route path='/create' component={Create} />
         <Route path='/show/:id' component={Show} />
         <Route path='/casefiles/' component={CaseFiles} />
+        <Route path='/export' component={Export} />
       </div>
   </Router>,
   document.getElementById('root')
