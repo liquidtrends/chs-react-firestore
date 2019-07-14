@@ -1,57 +1,49 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import './App.css';
-import firebase from './Firebase';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
-import AncestryChart from './components/AncestryChart';
-import StatusChart from './components/StatusChart';
-import DataTable from './components/DataTable';
+import './App.css';
+import CaseFiles from './components/CaseFiles';
+import Create from './components/Create';
+import Dashboard from  './components/Dashboard';
+import Edit from './components/Edit';
+import Export from './components/ExportData';
+import Show from './components/Show';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import SignOut from './components/SignOut';
+import Navigation from './components/Navigation';
 
-const useStyles = makeStyles(theme => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-  input: {
-    display: 'none',
-  },
-}));
+import { withAuthentication } from './components/Session';
 
+const App = () => (
+  <Router>
+    <div className="top-bar"></div>
+    <div className="menu-container">
+      <Container>
+        <Navigation />
+      </Container>
+    </div>
+    <div>
+      <Route exact path='/' component={() => {
+        window.location.href = '/signin';
+        return null;
+      }}/>
+      <Route exact path='/signin' component={SignIn} />
+      <Route exact path='/signup' component={SignUp} />
+      <Route exact path='/signout' component={SignOut} />
+      <Route exact path='/dashboard' component={Dashboard} />
+      <Route path='/edit/:id' component={Edit} />
+      <Route path='/create' component={Create} />
+      <Route path='/show/:id' component={Show} />
+      <Route path='/casefiles/' component={CaseFiles} />
+      <Route path='/export' component={Export} />
+    </div>
+  </Router>
+);
 
-class App extends Component {
-
-  render() {
-    return (
-      <div className="container">
-        <div className="panel panel-default">
-          <div>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="card">
-                  <h4>Casefile Status</h4>
-                  <StatusChart />
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="card">
-                  <h4>Ancestry</h4>
-                  <AncestryChart />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <DataTable />
-          </div>
-
-        </div>
-      </div>
-    );
-  }
-}
-
-export default App;
+// export default App;
+export default withAuthentication(App);
