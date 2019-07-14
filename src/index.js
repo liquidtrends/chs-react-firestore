@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Button from '@material-ui/core/Button';
 import CaseFiles from './components/CaseFiles';
 import Create from './components/Create';
+import Dashboard from  './components/Dashboard';
 import Edit from './components/Edit';
 import Export from './components/ExportData';
 import Show from './components/Show';
@@ -25,7 +25,7 @@ ReactDOM.render(
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="/">Dashboard</Nav.Link>
+              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
               <Nav.Link href="/Casefiles">Case Files</Nav.Link>
               <Nav.Link href="/export">Export Data</Nav.Link>
             </Nav>
@@ -43,7 +43,7 @@ ReactDOM.render(
         window.location.href = '/signin';
         return null;
       }}/>
-      <Route exact path='/dashboard' component={App} />
+      <Route exact path='/dashboard' component={Dashboard} />
       <Route path='/edit/:id' component={Edit} />
       <Route path='/create' component={Create} />
       <Route path='/show/:id' component={Show} />
