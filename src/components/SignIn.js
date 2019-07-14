@@ -36,20 +36,17 @@ class SignInFormBase extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  componentDidMount() {
-    this.props.firebase.auth.onAuthStateChanged(function(user) {
-      if (user) {
-        localStorage.setItem('authUser', JSON.stringify(user));
-      }
-    });
-  }
-
   onSubmit = event => {
     const { email, password } = this.state;
 
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
+        this.props.firebase.auth.onAuthStateChanged(function(user) {
+          if (user) {
+            localStorage.setItem('authUser', JSON.stringify(user));
+          }
+        });
         this.setState({ ...INITIAL_STATE });
         // this.props.history.push("/dashboard");
         window.location.href = "/dashboard";
