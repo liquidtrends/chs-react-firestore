@@ -11,7 +11,7 @@ const config = {
     storageBucket: "chs01-e6f8f.appspot.com",
     messagingSenderId: "1024731643977",
 };
-firebase.initializeApp(config);
+// firebase.initializeApp(config);
 
 
 

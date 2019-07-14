@@ -12,6 +12,7 @@ import Dashboard from  './components/Dashboard';
 import Edit from './components/Edit';
 import Export from './components/ExportData';
 import Show from './components/Show';
+import SignIn from './components/SignIn';
 import Navigation from './components/Navigation';
 
 import { withAuthentication } from './components/Session';
@@ -43,6 +44,7 @@ const App = () => (
         window.location.href = '/signin';
         return null;
       }}/>
+      <Route exact path='/signin' component={SignIn} />
       <Route exact path='/dashboard' component={Dashboard} />
       <Route path='/edit/:id' component={Edit} />
       <Route path='/create' component={Create} />
