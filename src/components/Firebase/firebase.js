@@ -21,6 +21,7 @@ class Firebase {
     /* Firebase APIs */
     this.auth = app.auth();
     this.db = app.database();
+    this.firestores = app.firestore();
 
     /* Social Sign In Method Provider */
     this.googleProvider = new app.auth.GoogleAuthProvider();
@@ -61,27 +62,33 @@ class Firebase {
   onAuthUserListener = (next, fallback) =>
     this.auth.onAuthStateChanged(authUser => {
       if (authUser) {
-        this.user(authUser.uid)
-          .once('value')
-          .then(snapshot => {
-            const dbUser = snapshot.val();
+        // this.user(authUser.uid)
+        //   .once('value')
+        //   .then(snapshot => {
+        //     const dbUser = snapshot.val();
 
-            // default empty roles
-            if (!dbUser.roles) {
-              dbUser.roles = {};
-            }
+        //     // default empty roles
+        //     if (!dbUser.roles) {
+        //       dbUser.roles = {};
+        //     }
 
-            // merge auth and db user
-            authUser = {
-              uid: authUser.uid,
-              email: authUser.email,
-              emailVerified: authUser.emailVerified,
-              providerData: authUser.providerData,
-              ...dbUser,
-            };
+        //     // merge auth and db user
+        //     authUser = {
+        //       uid: authUser.uid,
+        //       email: authUser.email,
+        //       emailVerified: authUser.emailVerified,
+        //       providerData: authUser.providerData,
+        //       ...dbUser,
+        //     };
 
-            next(authUser);
-          });
+        //     next(authUser);
+        //   });
+        authUser = {
+          uid: authUser.uid,
+          email: authUser.email,
+          emailVerified: authUser.emailVerified,
+        };
+        next(authUser);
       } else {
         fallback();
       }

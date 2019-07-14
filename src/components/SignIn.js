@@ -73,6 +73,7 @@ class SignInFormBase extends Component {
                   variant="outlined"
                   margin="normal"
                   style={{ width: "50%" }}
+                  placeholder="Email"
                 />
               </Grid>
               <Grid item xs={12} style={{ textAlign: "center" }}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -29,7 +28,14 @@ const NavigationAuth = ({ authUser }) => (
           <Nav.Link href="/admin"><Button variant="contained" className="new-casefile-button">Admin</Button></Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href="/signout"><Button variant="contained" className="new-casefile-button">SignOut</Button></Nav.Link>
+          <Nav.Link href="/signout">
+            <Button
+              variant="contained"
+              className="new-casefile-button"
+            >
+              SignOut
+            </Button>
+          </Nav.Link>
         </Nav.Item>
       </Nav>
     </Navbar.Collapse>

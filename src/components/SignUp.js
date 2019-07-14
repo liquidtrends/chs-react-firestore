@@ -2,12 +2,24 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import FormGroup from '@material-ui/core/FormGroup';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+
 import { withFirebase } from './Firebase';
+import firebase from '../Firebase';
 
 const SignUpPage = () => (
-  <div>
-    <h1>SignUp</h1>
-    <SignUpForm />
+  <div className="container">
+    <Card>
+      <CardContent>
+        <h1>SignUp</h1>
+        <SignUpForm />
+      </CardContent>
+    </Card>
   </div>
 );
 
@@ -42,7 +54,7 @@ class SignUpFormBase extends Component {
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(() => {
-        return this.props.firebase.firestore().collection('users').add({
+        return this.props.firebase.firestores.collection('users').add({
           username,
           email,
           isAdmin
@@ -50,7 +62,7 @@ class SignUpFormBase extends Component {
       })
       .then(() => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push("/home");
+        this.props.history.push("/dashboard");
       })
       .catch(error => {
         if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
@@ -87,57 +99,93 @@ class SignUpFormBase extends Component {
       username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="username"
-          value={username}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Full Name"
-        />
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <label>
-          Admin:
-          <input
-            name="isAdmin"
-            type="checkbox"
-            checked={isAdmin}
-            onChange={this.onChangeCheckbox}
-          />
-        </label>
-        <button disabled={isInvalid} type="submit">
-          Sign Up
-        </button>
-
-        {error && <p>{error.message}</p>}
-      </form>
+      <div className="container">
+        <FormGroup>
+          <form onSubmit={this.onSubmit}>
+            <Grid container>
+              <Grid item xs={12} style={{ textAlign: "center" }} >
+                <TextField
+                  name="username"
+                  value={username}
+                  onChange={this.onChange}
+                  style={{ width: "50%" }}
+                  type="text"
+                  variant="outlined"
+                  placeholder="Full Name"
+                />
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: "center" }}>
+                <TextField
+                  name="email"
+                  value={email}
+                  onChange={this.onChange}
+                  style={{ width: "50%",
+                  marginTop: "1rem"}}
+                  type="text"
+                  variant="outlined"
+                  placeholder="Email Address"
+                />
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: "center" }}>
+                <TextField
+                  name="passwordOne"
+                  value={passwordOne}
+                  onChange={this.onChange}
+                  style={{ width: "50%",
+                  marginTop: "1rem"}}
+                  type="password"
+                  variant="outlined"
+                  placeholder="Password"
+                />
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: "center" }}>
+                <TextField
+                  name="passwordTwo"
+                  value={passwordTwo}
+                  onChange={this.onChange}
+                  type="password"
+                  style={{ width: "50%",
+                  marginTop: "1rem"}}
+                  variant="outlined"
+                  placeholder="Confirm Password"
+                />
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: "center" }}>
+                <label>
+                  Is Super Admin?:
+                  <input
+                    name="isAdmin"
+                    type="checkbox"
+                    checked={isAdmin}
+                    onChange={this.onChangeCheckbox}
+                  />
+                </label>
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: "center" }}>
+                <Button
+                  disabled={isInvalid}
+                  style={{
+                    width: "30%",
+                    marginTop: "1rem"
+                  }}
+                  variant="outlined"
+                  type="submit"
+                >
+                  Sign Up
+                </Button>
+              </Grid>
+              {error && <p>{error.message}</p>}
+            </Grid>
+          </form>
+        </FormGroup>
+      </div>
     );
   }
 }
 
 const SignUpLink = () => (
   <p>
-    Don't have an account? <Link to={"/singup"}>Sign Up</Link>
+    Don't have an account? <Link to={"/signup"}>Sign Up</Link>
   </p>
 );
 
