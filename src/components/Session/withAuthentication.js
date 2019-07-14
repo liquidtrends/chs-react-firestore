@@ -14,16 +14,17 @@ const withAuthentication = Component => {
     }
 
     componentDidMount() {
-      this.listener = this.props.firebase.onAuthUserListener(
-        authUser => {
-          localStorage.setItem('authUser', JSON.stringify(authUser));
-          this.setState({ authUser });
-        },
-        () => {
-          localStorage.removeItem('authUser');
-          this.setState({ authUser: null });
-        },
-      );
+      console.log("====pass===");
+      // this.listener = this.props.firebase.onAuthUserListener(
+      //   authUser => {
+      //     localStorage.setItem('authUser', JSON.stringify(authUser));
+      //     this.setState({ authUser });
+      //   },
+      //   () => {
+      //     localStorage.removeItem('authUser');
+      //     this.setState({ authUser: null });
+      //   },
+      // );
     }
 
     componentWillUnmount() {

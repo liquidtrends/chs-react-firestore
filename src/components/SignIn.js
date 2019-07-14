@@ -36,6 +36,14 @@ class SignInFormBase extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
+  componentDidMount() {
+    this.props.firebase.auth.onAuthStateChanged(function(user) {
+      if (user) {
+        localStorage.setItem('authUser', JSON.stringify(user));
+      }
+    });
+  }
+
   onSubmit = event => {
     const { email, password } = this.state;
 
@@ -43,7 +51,8 @@ class SignInFormBase extends Component {
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push("/dashboard");
+        // this.props.history.push("/dashboard");
+        window.location.href = "/dashboard";
       })
       .catch(error => {
         this.setState({ error });
