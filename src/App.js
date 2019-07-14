@@ -16,6 +16,7 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import SignOut from './components/SignOut';
 import Navigation from './components/Navigation';
+import UserManager from './components/UserManager';
 
 import { withAuthentication } from './components/Session';
 
@@ -36,6 +37,7 @@ const App = () => (
       <Route exact path='/signup' component={SignUp} />
       <Route exact path='/signout' component={SignOut} />
       <Route exact path='/dashboard' component={Dashboard} />
+      <Route exact path='/usermanage' component={UserManager} />
       <Route path='/edit/:id' component={Edit} />
       <Route path='/create' component={Create} />
       <Route path='/show/:id' component={Show} />

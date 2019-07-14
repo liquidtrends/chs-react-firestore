@@ -19,13 +19,11 @@ const NavigationAuth = ({ authUser }) => (
         <Nav.Link href="/dashboard">Dashboard</Nav.Link>
         <Nav.Link href="/Casefiles">Case Files</Nav.Link>
         <Nav.Link href="/export">Export Data</Nav.Link>
+        <Nav.Link href="/usermanage">User Manage</Nav.Link>
       </Nav>
       <Nav className="justify-content-end">
         <Nav.Item>
           <Nav.Link href="/Create"><Button variant="contained" className="new-casefile-button">New Case File</Button></Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link href="/admin"><Button variant="contained" className="new-casefile-button">Admin</Button></Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link href="/signout">
