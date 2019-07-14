@@ -4,18 +4,17 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button';
-import Edit from './components/Edit';
-import Create from './components/Create';
-import Show from './components/Show';
 import CaseFiles from './components/CaseFiles';
+import Create from './components/Create';
+import Edit from './components/Edit';
 import Export from './components/ExportData';
+import Show from './components/Show';
+import Navigation from './components/Navigation';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
 ReactDOM.render(
   <Router>
