@@ -19,9 +19,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 ReactDOM.render(
   <Router>
-      <div className="top-bar"></div>
-      <div className="menu-container">
-        <Container>
+    <div className="top-bar"></div>
+    <div className="menu-container">
+      <Container>
         <Navbar bg="light" expand="lg">
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -36,17 +36,21 @@ ReactDOM.render(
               </Nav.Item>
             </Nav>
           </Navbar.Collapse>
-          </Navbar>
-        </Container>
-      </div>
-      <div>
-        <Route exact path='/' component={App} />
-        <Route path='/edit/:id' component={Edit} />
-        <Route path='/create' component={Create} />
-        <Route path='/show/:id' component={Show} />
-        <Route path='/casefiles/' component={CaseFiles} />
-        <Route path='/export' component={Export} />
-      </div>
+        </Navbar>
+      </Container>
+    </div>
+    <div>
+      <Route exact path='/' component={() => {
+        window.location.href = '/signin';
+        return null;
+      }}/>
+      <Route exact path='/dashboard' component={App} />
+      <Route path='/edit/:id' component={Edit} />
+      <Route path='/create' component={Create} />
+      <Route path='/show/:id' component={Show} />
+      <Route path='/casefiles/' component={CaseFiles} />
+      <Route path='/export' component={Export} />
+    </div>
   </Router>,
   document.getElementById('root')
 );
