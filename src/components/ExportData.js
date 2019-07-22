@@ -20,7 +20,7 @@ export default class Export extends Component {
   onCollectionUpdate = (querySnapshot) => {
     const cases = [];
     querySnapshot.forEach((doc) => {
-      const { firstName, lastName, caseStatus, phoneNumber, reasonForIntervention, referredBy } = doc.data();
+      const { firstName, lastName, caseStatus, phoneNumber, reasonForIntervention, referredBy, date} = doc.data();
       cases.push({
         key: doc.id,
         doc, // DocumentSnapshot
@@ -29,7 +29,8 @@ export default class Export extends Component {
         caseStatus,
         phoneNumber,
         reasonForIntervention,
-        referredBy
+        referredBy,
+        date
       });
     });
     this.setState({ cases });
@@ -52,8 +53,8 @@ export default class Export extends Component {
 
   render() {
     const { cases } = this.state;
-    let col = ["key", "firstName", "lastName", "caseStatus"];
-    let tHead = ["CASE ID", "First Name", "Last Name", "Status"];
+    let col = ["key", "firstName", "lastName", "caseStatus", "date"];
+    let tHead = ["CASE ID", "First Name", "Last Name", "Status", "Date"];
 
     return (<React.Fragment>
       <div className="mb5">

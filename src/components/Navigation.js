@@ -36,12 +36,16 @@ const NavigationAuth = ({ authUser }) => (
           </Nav.Link>
         </Nav.Item>
       </Nav>
+
     </Navbar.Collapse>
     {/* {!!authUser.roles[ROLES.ADMIN] && (
       <li>
         <Link to={ROUTES.ADMIN}>Admin</Link>
       </li>
     )} */}
+      <li>
+        {authUser.name}
+      </li>
   </Navbar>
 );
 

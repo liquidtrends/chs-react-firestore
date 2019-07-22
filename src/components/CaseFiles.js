@@ -16,7 +16,8 @@ class CaseFiles extends Component {
   onCollectionUpdate = (querySnapshot) => {
     const cases = [];
     querySnapshot.forEach((doc) => {
-      const { firstName, lastName, caseStatus, phoneNumber, reasonForIntervention, referredBy } = doc.data();
+      console.log(doc);
+      const { firstName, lastName, caseStatus, phoneNumber, reasonForIntervention, referredBy, comment, children} = doc.data();
       cases.push({
         key: doc.id,
         doc, // DocumentSnapshot
@@ -25,7 +26,9 @@ class CaseFiles extends Component {
         caseStatus,
         phoneNumber,
         reasonForIntervention,
-        referredBy
+        referredBy,
+        comment: comment || [],
+        children: children || [],
       });
     });
     this.setState({
@@ -72,8 +75,8 @@ class CaseFiles extends Component {
                   <tr>
                     <td><Link to={`/show/${casefile.key}`}>{casefile.firstName} {casefile.lastName}</Link></td>
                     <td>{casefile.caseStatus}</td>
-                    <td>3</td>
-                    <td><Link to={`/show/${casefile.key}`}>3 comments</Link></td>
+                    <td>{casefile.children.length}</td>
+                    <td><Link to={`/show/${casefile.key}`}>{casefile.comment.length} comments</Link></td>
                     <td><Link to={`/edit/${casefile.key}`} className="btn btn-success">Edit</Link></td>
                   </tr>
                 )}

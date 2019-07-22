@@ -50,7 +50,7 @@ class Edit extends Component {
     e.preventDefault();
 
     const { name, description, author } = this.state;
-
+    console.log(this.state);
     const updateRef = firebase.firestore().collection('cases').doc(this.state.key);
     updateRef.set({
       name,
@@ -84,7 +84,7 @@ class Edit extends Component {
             <form onSubmit={this.onSubmit}>
               <div class="form-group">
                 <label for="title">Title:</label>
-                <input type="text" class="form-control" name="title" value={this.state.name} onChange={this.onChange} placeholder="Name" />
+                <input type="text" class="form-control" name="name" value={this.state.name} onChange={this.onChange} placeholder="Name" />
               </div>
               <div class="form-group">
                 <label for="description">Description:</label>

@@ -3,6 +3,13 @@ import ReactDOM from 'react-dom';
 import firebase from '../Firebase';
 import { Link } from 'react-router-dom';
 
+
+
+const mapStyles = {
+  width: '100%',
+  height: '100%',
+};
+
 class Create extends Component {
 
   constructor() {
@@ -14,6 +21,7 @@ class Create extends Component {
       lastName: '',
       parentDob: '',
       phoneNumber: '',
+      address: '',
       parentGender: '',
       Ancestry: '',
       caseStatus: '',
@@ -45,12 +53,13 @@ class Create extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName, parentDob, phoneNumber, parentGender, Ancestry, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time, children} = this.state;
+    const { firstName, lastName, parentDob, phoneNumber, address, parentGender, Ancestry, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time, children} = this.state;
     this.ref.add({
       firstName,
       lastName,
       parentDob,
       phoneNumber,
+      address,
       parentGender,
       Ancestry,
       caseStatus,
@@ -105,7 +114,7 @@ class Create extends Component {
   }
 
   render() {
-    const { firstName, lastName, parentDob, phoneNumber, parentGender, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time, children, child, comment, singleComment} = this.state;
+    const { firstName, lastName, parentDob, phoneNumber, parentGender, address, caseStatus, AttendedResidentialSchool, reasonForIntervention, referredBy, childWelfareInvolvement, time, children, child, comment, singleComment} = this.state;
     return (
       <div className="container case-form-container">
         <h4>New Case File</h4>
@@ -130,7 +139,7 @@ class Create extends Component {
                   {/* DOB */}
                   <div className="form-group">
                     <label htmlFor="DOB">Date of Birth: </label>
-                    <input type="text" className="form-control" name="parentDob" value={parentDob} onChange={this.onChange} placeholder="January 1, 2001" />
+                    <input type="date" className="form-control" name="parentDob" value={parentDob} onChange={this.onChange} placeholder="January 1, 2001" />
                   </div>
                   {/* Gender */}
                   <div className="input-group">
@@ -192,6 +201,11 @@ class Create extends Component {
                     <label htmlFor="PhoneNumber">Phone Number:</label>
                     <input type="number" className="form-control" name="phoneNumber" value={phoneNumber} onChange={this.onChange} placeholder="780-123-4567" />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="Address">Address:</label>
+                    <input type="text" className="form-control" name="address" value={address} onChange={this.onChange} placeholder="Address" />
+                  </div>
+                 
                   {/* Intervention Section */}
                   <hr />
                   <h4>Case File Information</h4>
@@ -280,7 +294,7 @@ class Create extends Component {
                 <div className="form-group">
                   <label htmlFor="DOB">Date of Birth: </label>
                   <input
-                    type="text"
+                    type="date"
                     className="form-control"
                     name="childDob"
                     placeholder="January 1, 2001"
@@ -301,3 +315,4 @@ class Create extends Component {
 }
 
 export default Create;
+

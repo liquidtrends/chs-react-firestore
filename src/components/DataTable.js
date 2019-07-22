@@ -35,7 +35,7 @@ class DataTable extends Component {
     querySnapshot.forEach((doc) => {
       const { firstName, lastName, caseStatus, phoneNumber, reasonForIntervention, referredBy } = doc.data();
       cases.push({
-        key: doc.id,
+        key: <a href={'show/' + doc.id}> {doc.id} </a>,
         doc, // DocumentSnapshot
         firstName,
         lastName,

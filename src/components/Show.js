@@ -8,6 +8,14 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Table from 'react-bootstrap/Table';
 
+import { Map, GoogleApiWrapper, Marker, InfoWindow} from 'google-maps-react';
+
+const mapStyles = {
+  width: '500px',
+  height: '300px',
+  position: 'relative',
+};
+
 class Show extends Component {
 
   constructor(props) {
@@ -20,8 +28,14 @@ class Show extends Component {
         childFirstName: '',
         childLastName: '',
         childDob: ''
-      }
+      },
+      newcomment: '',
+      position: {lat: 37.759703, lng: -122.428093},
     };
+  }
+
+  onChange = (e) => {
+    this.setState({newcomment:e.target.value});
   }
 
   componentDidMount() {
@@ -29,16 +43,41 @@ class Show extends Component {
 
     ref.get().then((doc) => {
       if (doc.exists) {
-        this.setState({
-          casefile: doc.data(),
-          key: doc.id,
-          isLoading: false
-        });
+        let casefile = doc.data();
+        casefile.comment = casefile.comment || [];
+        fetch("https://maps.googleapis.com/maps/api/geocode/json?" + casefile.address + "&key=AIzaSyC0d4CbCCwVLd19_gGxtAY5KY5vUfSflVY")
+            .then(res => res.json())
+            .then(
+              (result) => {
+                  console.log(result);
+                  this.setState({
+                    casefile,
+                    key: doc.id,
+                    isLoading: false,
+                  });
+              },
+              // Note: it's important to handle errors here
+              // instead of a catch() block so that we don't swallow
+              // exceptions from actual bugs in components.
+              (error) => {
+                this.setState({
+                  casefile,
+                  key: doc.id,
+                  isLoading: false,
+                  position: {lat: 0, lng: 0}
+                });
+              }
+            )
+        
       } else {
         console.log("No such document!");
       }
     });
+
+
   }
+
+
 
   delete(id){
     firebase.firestore().collection('cases').doc(id).delete().then(() => {
@@ -49,7 +88,21 @@ class Show extends Component {
     });
   }
 
+  onSubmit = (e) => {
+    e.preventDefault();
 
+    let { name, casefile, newcomment} = this.state;
+    casefile.comment.push({theComment: newcomment});
+    console.log(casefile);
+    const updateRef = firebase.firestore().collection('cases').doc(this.props.match.params.id);
+    console.log(updateRef);
+    updateRef.set(casefile).then((docRef) => {
+      this.setState({casefile});
+    })
+    .catch((error) => {
+      console.error("Error adding comment: ", error);
+    });
+  }
   render() {
 
     if(this.state.isLoading) {
@@ -77,7 +130,22 @@ class Show extends Component {
                 <dd>Attended Residential School?: {this.state.casefile.AttendedResidentialSchool}</dd>
                 <dd>Ancestry: {this.state.casefile.Ancestry}</dd>
                 <dd>Phone: <Link to={`tel:${this.state.casefile.phoneNumber}`}>{this.state.casefile.phoneNumber}</Link></dd>
+                <dd>Address: {this.state.casefile.address}</dd>
+
               </dl>
+                  <div style={mapStyles}>
+                     <Map google={this.props.google} zoom={14}>
+   
+                      <Marker name={'My Address'} 
+                              position={this.state.position}/>
+                      
+                      <InfoWindow onClose={this.onInfoWindowClose}>
+                          <div>
+                            <h1>{this.state.casefile.address}</h1>
+                          </div>
+                      </InfoWindow>
+                    </Map>
+                  </div>
             </div>
             <div className="card">
               <p>Comments:</p>
@@ -91,7 +159,15 @@ class Show extends Component {
                       )}
                   </div>
                 }
-
+                <div>
+                  <form onSubmit={this.onSubmit}>
+                    <div class="form-group">
+                      <label for="title">Comment:</label>
+                      <input type="text" class="form-control" name="newcomment" value={this.state.newcomment} onChange={this.onChange} placeholder="Comment" />
+                    </div>
+                    <button type="submit" class="btn btn-success">Add</button>
+                  </form>
+                </div>
             </div>
           </div>
           <div className="col-md-4">
@@ -137,4 +213,7 @@ class Show extends Component {
   }
 }
 
-export default Show;
+
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyC0d4CbCCwVLd19_gGxtAY5KY5vUfSflVY',
+})(Show);
