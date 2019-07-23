@@ -43,9 +43,15 @@ const NavigationAuth = ({ authUser }) => (
         <Link to={ROUTES.ADMIN}>Admin</Link>
       </li>
     )} */}
-      <li>
-        {authUser.name}
-      </li>
+      <div 
+        class="nav-item" 
+        style={{
+          fontSize:"20px",
+          color: "grey"
+        }}
+      >
+        {localStorage.getItem("username")}
+      </div>
   </Navbar>
 );
 

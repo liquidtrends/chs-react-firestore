@@ -57,6 +57,7 @@ class SignUpFormBase extends Component {
         this.props.firebase.auth.onAuthStateChanged(function(user) {
           if (user) {
             localStorage.setItem('authUser', JSON.stringify(user));
+            localStorage.setItem('username', username)
           }
         });
         return this.props.firebase.firestores.collection('users').add({

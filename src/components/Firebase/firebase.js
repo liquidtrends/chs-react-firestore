@@ -84,6 +84,7 @@ class Firebase {
         //     next(authUser);
         //   });
         authUser = {
+          name: authUser.displayName,
           uid: authUser.uid,
           email: authUser.email,
           emailVerified: authUser.emailVerified,

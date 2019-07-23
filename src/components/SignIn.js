@@ -38,18 +38,28 @@ class SignInFormBase extends Component {
 
   onSubmit = event => {
     const { email, password } = this.state;
-
+    let firestore = this.props.firebase.firestores;
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
         this.props.firebase.auth.onAuthStateChanged(function(user) {
+
           if (user) {
-            localStorage.setItem('authUser', JSON.stringify(user));
+            firestore.collection('users').where("email", "==", user.email)
+           .get().then(function(querySnapshot) {
+                localStorage.setItem('authUser', JSON.stringify(user));
+                localStorage.setItem('username', querySnapshot.docs[0].data().username)
+
+                // this.props.history.push("/dashboard");
+                window.location.href = "/dashboard";
+            })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
           }
+
         });
-        this.setState({ ...INITIAL_STATE });
-        // this.props.history.push("/dashboard");
-        window.location.href = "/dashboard";
+          this.setState({ ...INITIAL_STATE });
       })
       .catch(error => {
         this.setState({ error });

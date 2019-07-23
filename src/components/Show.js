@@ -30,7 +30,7 @@ class Show extends Component {
         childDob: ''
       },
       newcomment: '',
-      position: {lat: 37.759703, lng: -122.428093},
+      position: {},
     };
   }
 
@@ -45,15 +45,20 @@ class Show extends Component {
       if (doc.exists) {
         let casefile = doc.data();
         casefile.comment = casefile.comment || [];
-        fetch("https://maps.googleapis.com/maps/api/geocode/json?" + casefile.address + "&key=AIzaSyC0d4CbCCwVLd19_gGxtAY5KY5vUfSflVY")
+
+        fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + casefile.address + "&key=AIzaSyC0d4CbCCwVLd19_gGxtAY5KY5vUfSflVY")
             .then(res => res.json())
             .then(
               (result) => {
                   console.log(result);
+                  let position = {};
+                  if(result.results.length > 0)
+                     position = result.results[0].geometry.location;
                   this.setState({
                     casefile,
                     key: doc.id,
                     isLoading: false,
+                    position,
                   });
               },
               // Note: it's important to handle errors here
@@ -134,10 +139,12 @@ class Show extends Component {
 
               </dl>
                   <div style={mapStyles}>
-                     <Map google={this.props.google} zoom={14}>
-   
-                      <Marker name={'My Address'} 
-                              position={this.state.position}/>
+                     <Map google={this.props.google} zoom={14} center={this.state.position}>
+                      {
+                        this.state.position.lat &&   
+                        <Marker name={'My Address'} 
+                                position={this.state.position}/>
+                      }
                       
                       <InfoWindow onClose={this.onInfoWindowClose}>
                           <div>
